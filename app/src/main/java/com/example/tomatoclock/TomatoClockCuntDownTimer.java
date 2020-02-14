@@ -5,9 +5,9 @@ import android.os.CountDownTimer;
 /**
  * create by Administrator
  * create on 2020/2/13 0013
- * 1. ¼Ì³ĞAndroidµÄCountDownTimer£¬²»ÓÃ×Ô¼ºĞ´HandlerÀ´¸üĞÂUIÁË
- * 2. µ«ÊÇ¹¦ÄÜÏà¶Ô¼òµ¥£¬Ö»ÄÜstartºÍcancel,Ã»ÓĞpauseºÍrestartµÄÄÜÁ¦
- * 3. ¼ÓÁË¸ö½ø¶ÈÌõºÍ¶¨ÖÆµÄÊ±¼äÏÔÊ¾
+ * 1. ç»§æ‰¿Androidçš„CountDownTimerï¼Œä¸ç”¨è‡ªå·±å†™Handleræ¥æ›´æ–°UIäº†
+ * 2. ä½†æ˜¯åŠŸèƒ½ç›¸å¯¹ç®€å•ï¼Œåªèƒ½startå’Œcancel,æ²¡æœ‰pauseå’Œrestartçš„èƒ½åŠ›
+ * 3. åŠ äº†ä¸ªè¿›åº¦æ¡å’Œå®šåˆ¶çš„æ—¶é—´æ˜¾ç¤º
  */
 public class TomatoClockCuntDownTimer extends CountDownTimer {
 

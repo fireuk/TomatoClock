@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/red_bg_1"
     android:id="@+id/layout_timing"
-    android:keepScreenOn="true"
-    tools:context=".Main2Activity">
+    android:keepScreenOn="true">
 
     <TextView
         android:id="@+id/task_name_working"

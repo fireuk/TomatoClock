@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView_taskname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_alignBottom="@+id/edit_taskname"
+        android:text="@string/task_name" />
+
+    <EditText
+        android:id="@+id/edit_taskname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textView_taskname"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:hint="@string/edit_message"></EditText>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_worktime"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/textView_taskname"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@id/edit_worktime"
+        android:text="@string/work_time">
+    </TextView>
+
+    <EditText
+        android:id="@+id/edit_worktime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textView_worktime"
+        android:layout_below="@+id/edit_taskname"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:hint="@string/hint_time"></EditText>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_relaxtime"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/textView_worktime"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@id/edit_relaxtime"
+        android:text="@string/rest_time">
+    </TextView>
+
+    <EditText
+        android:id="@+id/edit_relaxtime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textView_relaxtime"
+        android:layout_below="@+id/edit_worktime"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:hint="@string/hint_time"></EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_repetition"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/textView_relaxtime"
+        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@id/edit_repetition"
+        android:text="@string/repetition_times">
+    </TextView>
+
+    <EditText
+        android:id="@+id/edit_repetition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textView_relaxtime"
+        android:layout_below="@+id/textView_relaxtime"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:hint="@string/hint_times"></EditText>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_repetition"
+        android:id="@+id/btn_1001"
+        android:text="@string/tenAndone"
+        android:layout_marginTop="10dp"
+        >
+    </Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/btn_1001"
+        android:layout_alignTop="@id/btn_1001"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/btn_2505"
+        android:text="@string/twofiveAndfive"></Button>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/btn_1001"
+        android:layout_toEndOf="@id/btn_2505"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/btn_3005"
+        android:text="@string/thirdtenAndfive">
+    </Button>
+
+    <!--<Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/btn_1001"
+        android:layout_toEndOf="@id/btn_3005"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/btn_6005"
+        android:text="@string/sixtenAndfive"></Button>-->
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="sendMessage"
+        android:text="@string/start_btn" />
+
+
+</android.widget.RelativeLayout>

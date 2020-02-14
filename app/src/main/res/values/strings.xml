@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">TomatoClock</string>
+    <string name="edit_message">任务名称</string>
+    <string name="button_send">发送</string>
+    <string name="task_name">任务</string>
+    <string name="work_time">专注</string>
+    <string name="rest_time">放松</string>
+    <string name="repetition_times">次数</string>
+    <string name="start_btn">开始</string>
+    <string name="hint_time">设置需要的分钟数</string>
+    <string name="hint_times">设置需要的次数</string>
+    <string name="noTaskTime">请设置专注时间</string>
+    <string name="working">working</string>
+    <string name="relaxing">relaxing</string>
+    <string name="tenAndone">10+1</string>
+    <string name="twofiveAndfive">25+5</string>
+    <string name="thirdtenAndfive">30+5</string>
+    <string name="sixtenAndfive">60+5</string>
+</resources>

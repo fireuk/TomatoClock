@@ -19,6 +19,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.lang.reflect.Method;
 
+/**
+ * create by Administrator
+ * create on 2020/2/13 0013
+ * 1. 好久没写代码，命名有点乱
+ * 2. 就一个Activity，简单实现一个倒计时
+ * 3. 横屏的倒计时有逼格一点，所以就全搞横屏的了
+ * 4. google的CuntDownTimer，不支持暂停，所以我有懒得做了，集成一个子类，简单实现UI更新就好了
+ * 5. 声音提醒还没有做，每一个状态切换时，可以把声音提醒加上
+ * 6. 切出界面，计时重新开始，你看着办
+ * 7. 不加那些乱七八糟的统计功能，即用即走
+ */
 public class MainActivity extends Activity {
 
     private static final String TAG = "braind";
@@ -151,16 +162,16 @@ public class MainActivity extends Activity {
         mint_Minute = getMinute(m_string_task_time, 0);
         Log.d(TAG, "m_string_task_time = "+m_string_task_time+" and mint_Minute = "+mint_Minute);
 
-        // 设置倒计时的时间和间隔；间隔为1秒
-        int int_MillisInFuture = mint_Minute * 60 *1000;
-        int int_CountdownInterval = 1000;
-
         // 如果设定的时间是>0的，才是有效的时间，才启动计时
         if (mint_Minute > 0){
 
             // 倒计时的文字字体设置
             mTextView_remaining_time.setTextSize(200);
             mTextView_remaining_time.setTypeface(mTypeface);
+
+            // 设置倒计时的时间和间隔；间隔为1秒
+            int int_MillisInFuture = mint_Minute * 60 *1000;
+            int int_CountdownInterval = 1000;
 
             // 创建倒计时并启动
             mCountDownTimer_Task = (TomatoClockCuntDownTimer) new TomatoClockCuntDownTimer(int_MillisInFuture, int_CountdownInterval, mint_Minute){

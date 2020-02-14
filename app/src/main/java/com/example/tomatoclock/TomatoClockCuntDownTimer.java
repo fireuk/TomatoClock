@@ -5,7 +5,9 @@ import android.os.CountDownTimer;
 /**
  * create by Administrator
  * create on 2020/2/13 0013
- * description
+ * 1. 继承Android的CountDownTimer，不用自己写Handler来更新UI了
+ * 2. 但是功能相对简单，只能start和cancel,没有pause和restart的能力
+ * 3. 加了个进度条和定制的时间显示
  */
 public class TomatoClockCuntDownTimer extends CountDownTimer {
 

@@ -1,2 +1,2 @@
 # TomatoClock
-  a simple clock app
+  a simple clock app for time

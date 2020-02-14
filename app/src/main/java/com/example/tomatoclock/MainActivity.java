@@ -1,7 +1,6 @@
 package com.example.tomatoclock;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
@@ -29,7 +28,7 @@ public class MainActivity extends Activity {
     private static EditText m_editText_task_name;
     private static EditText m_editText_task_time;
     private static EditText m_editText_relax_time;
-    private static EditText m_editText_repetition_time;
+    //private static EditText m_editText_repetition_time;
     private static TextView m_textView_task_name_onworking;
     private static TextView mTextView_remaining_time;
     private static TomatoClockCuntDownTimer mCountDownTimer_Task;
@@ -38,6 +37,10 @@ public class MainActivity extends Activity {
     public static ProgressBar mProgressBar;
     public static AssetManager mAssetManager;
     public static Typeface mTypeface;
+    public static int mInt_Main = 0;
+    public static int mInt_CuntDownTimer = 1;
+    public static int mInt_page_index = -1;
+    public static int mint_Minute = 0;   // 设置的专注时间，单位分钟
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,8 @@ public class MainActivity extends Activity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getViewInstance(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        getViewInstance(mInt_Main);
+        mInt_page_index= mInt_Main;
         mAssetManager = getAssets();
         mTypeface = Typeface.createFromAsset(mAssetManager, "fonts/Roboto-Medium.ttf");
     }
@@ -73,8 +76,8 @@ public class MainActivity extends Activity {
         }
     }
 
+    // 延伸显示区域到刘海
     public void setDsiplayInNotchOnP(){
-        // 延伸显示区域到刘海
         Log.d(TAG, "setDsiplayInNotchOnP");
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
@@ -82,6 +85,7 @@ public class MainActivity extends Activity {
         window.setAttributes(lp);
     }
 
+    // 判断是否是刘海屏（可能是适用小米）
     private static boolean isNotch() {
         try {
             Method getInt = Class.forName("android.os.SystemProperties").getMethod("getInt", String.class, int.class);
@@ -92,34 +96,40 @@ public class MainActivity extends Activity {
         return false;
     }
 
-
-
     public void sendMessage(View view) {
-        /*Intent intent = new Intent(this, Main2Activity.class);
-        EditText editText = findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(Intent.EXTRA_TEXT, message);
-        startActivity(intent);*/
+        // 进行界面切换
+        if (mInt_page_index == mInt_Main) {
 
-        // 选择Activity为横屏
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-            // 在变换布局之前，先把EditView里面的数据举出来
+            // 在变换布局之前，先把EditView里面的数据取出来
             getInputValue();
 
-            setContentView(R.layout.activity_main2);
-
-            // 必须在应用横屏布局后，才能找到这个布局的控件实例
-            // 布局更换后，前一个布局的实例也被销毁了
-            getViewInstance(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            // 进入计时布局界面
+            navigationToPage(mInt_CuntDownTimer);
 
             // 启动计时
             startTask();
         }
     }
 
+    // 根据传入的index，导航到对应的界面
+    public void navigationToPage(int int_page_index){
+        int int_LayoutId = -1;
+        if (int_page_index == mInt_Main){
+            int_LayoutId = R.layout.activity_main;
+        }
+        else if (int_page_index == mInt_CuntDownTimer){
+            int_LayoutId = R.layout.activity_main2;
+        }
 
+        if (int_LayoutId != -1){
+            setContentView(int_LayoutId);
+            mInt_page_index = int_page_index;
+            getViewInstance(int_page_index);
+        }
+    }
+
+
+    // 刷新计时界面的UI：数字和进度条
     public void updateTimeUi(String s_Remaing_time, int i_Progress){
         if(mTextView_remaining_time != null){
             mTextView_remaining_time.setText(s_Remaing_time);
@@ -130,26 +140,35 @@ public class MainActivity extends Activity {
         }
     }
 
-    public static int mint_Minute = 0;
+    // 启动task倒计时
     public void startTask(){
         if (m_textView_task_name_onworking != null){
             Log.d(TAG, "m_textView_task_name_onworking != null and m_string_task_name = "+m_string_task_name);
             m_textView_task_name_onworking.setText(m_string_task_name);
         }
 
+        // 获取设置的task时长
         mint_Minute = getMinute(m_string_task_time, 0);
         Log.d(TAG, "m_string_task_time = "+m_string_task_time+" and mint_Minute = "+mint_Minute);
+
+        // 设置倒计时的时间和间隔；间隔为1秒
         int int_MillisInFuture = mint_Minute * 60 *1000;
         int int_CountdownInterval = 1000;
+
+        // 如果设定的时间是>0的，才是有效的时间，才启动计时
         if (mint_Minute > 0){
+
+            // 倒计时的文字字体设置
             mTextView_remaining_time.setTextSize(200);
             mTextView_remaining_time.setTypeface(mTypeface);
+
+            // 创建倒计时并启动
             mCountDownTimer_Task = (TomatoClockCuntDownTimer) new TomatoClockCuntDownTimer(int_MillisInFuture, int_CountdownInterval, mint_Minute){
                 @Override
                 public void onTick(long millisUntilFinished) {
                     super.onTick(millisUntilFinished);
                     Log.d(TAG, "millisUntilFinished = "+millisUntilFinished);
-                    String string_time = getRemainingTime(mint_Minute);
+                    String string_time = getRemainingTime();
                     int i_Progress = getProgress(millisUntilFinished);
                     updateTimeUi(string_time, i_Progress);
                 }
@@ -157,22 +176,28 @@ public class MainActivity extends Activity {
                 @Override
                 public void onFinish() {
                     super.onFinish();
+
+                    // task时间到了以后，进度条归零
                     mProgressBar.setProgress(0);
+
+                    // 启动relax倒计时
                     startRelax();
                 }
             }.start();
         }
         else {
+            // 如果设置的是无效task时长，那么显示提示文字并修改字体大小，因为太大了显示不下
             mTextView_remaining_time.setTextSize(100);
         }
     }
 
+    // 启动relax倒计时
     public void startRelax(){
-/*        if(mProgressBar != null){
-            mProgressBar.setProgress(0);
-        }*/
         mint_Minute = getMinute(mString_ralex_time, 0);
+
+        // 设置的relax时间>0才有效，才启动relax倒计时
         if (mint_Minute > 0 ){
+            // 进入relax时间后，切换一下背景，换一个心情
             mConstraintLayout_Time.setBackground(getDrawable(R.drawable.green_bg_0));
             m_textView_task_name_onworking.setText(getText(R.string.relaxing));
             int int_MillisInFuture_Relax = mint_Minute * 60 *1000;
@@ -182,7 +207,7 @@ public class MainActivity extends Activity {
                 public void onTick(long millisUntilFinished) {
                     super.onTick(millisUntilFinished);
 
-                    String string_relax_time = getRemainingTime(mint_Minute);
+                    String string_relax_time = getRemainingTime();
                     int i_Progress = getProgress(millisUntilFinished);
                     updateTimeUi(string_relax_time, i_Progress);
                 }
@@ -190,20 +215,32 @@ public class MainActivity extends Activity {
                 @Override
                 public void onFinish() {
                     super.onFinish();
-                    misionComplete();
+
+                    // relax时间到，整个任务结束
+                    // 如果循环再调用startTask，会不会造成很深的调用栈？
+                    missionComplete();
                 }
             }.start();
         }
         else {
-            misionComplete();
+            // 没有设置relax时间，直接结束任务
+            missionComplete();
         }
     }
 
-    public void misionComplete(){
+    // 任务完成后的处理
+    public void missionComplete(){
+        // 设置任务完成后的背景
         mConstraintLayout_Time.setBackground(getDrawable(R.drawable.blue_bg));
+
+        // 隐藏进度条
         mProgressBar.setProgress(0);
+
+        // 设置任务完成后显示的文字和字体
         mTextView_remaining_time.setText("complete!");
         mTextView_remaining_time.setTextSize(100);
+
+        // 隐藏任务名称
         m_textView_task_name_onworking.setText("");
     }
 
@@ -230,20 +267,30 @@ public class MainActivity extends Activity {
         super.onResume();
         hideSystemUI();
         Log.d(TAG, "onResume");
+
+        // 如果是从计时界面切出的，再回来时，重新计时
+        if (mInt_page_index == mInt_CuntDownTimer){
+            startTask();
+        }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        // 切出界面后，计时取消
+        if (mCountDownTimer_Task != null){
+            mCountDownTimer_Task.cancel();
+        }
+        if (mCountDownTimer_Relax != null){
+            mCountDownTimer_Relax.cancel();
+        }
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Log.d(TAG, "onConfigurationChanged");
-        if (Configuration.ORIENTATION_LANDSCAPE == newConfig.orientation){
-
-        }
-        else if (Configuration.ORIENTATION_PORTRAIT == newConfig.orientation){
-
-        }
     }
 
     private void hideSystemUI() {
@@ -266,16 +313,19 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed");
-        if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (mInt_page_index == mInt_CuntDownTimer){
+            //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
             // 在工作计时界面按返回键时，先把设置界面的布局先设置生效，然后获取其页面实例
-            setContentView(R.layout.activity_main);
-            getViewInstance(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            /*setContentView(R.layout.activity_main);
+            mInt_page_index = mInt_Main;
+
+            getViewInstance(mInt_page_index);*/
+            navigationToPage(mInt_Main);
 
             // 只有在进入设置界面时，才能设置InputValue
             setInputValue();
-            Log.d(TAG, "onBackPressed and SCREEN_ORIENTATION_LANDSCAPE");
+            Log.d(TAG, "onBackPressed and back to main");
 
             if (mCountDownTimer_Task != null){
                 mCountDownTimer_Task.cancel();
@@ -289,14 +339,15 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void getViewInstance (int orientation){
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+    // 获取布局中的控件实例，只有设置生效的布局，才能获取到实例
+    public void getViewInstance (int int_page_index){
+        if (int_page_index == mInt_Main){
             m_editText_task_name = findViewById(R.id.edit_taskname);
             m_editText_task_time = findViewById(R.id.edit_worktime);
             m_editText_relax_time = findViewById(R.id.edit_relaxtime);
-            m_editText_repetition_time = findViewById(R.id.edit_repetition);
+            //m_editText_repetition_time = findViewById(R.id.edit_repetition);
         }
-        else if (getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+        else if (int_page_index == mInt_CuntDownTimer){
             m_textView_task_name_onworking = findViewById(R.id.task_name_working);
             mTextView_remaining_time = findViewById(R.id.textView_remaining_time);
             mConstraintLayout_Time = findViewById(R.id.layout_timing);
@@ -320,5 +371,30 @@ public class MainActivity extends Activity {
         m_editText_task_name.setText(m_string_task_name);
         m_editText_task_time.setText(m_string_task_time);
         m_editText_relax_time.setText(mString_ralex_time);
+    }
+
+    // 按钮自动填充默认时间
+    public void choseTime(View view) {
+        int id = view.getId();
+        switch (id){
+            case R.id.btn_1001:
+                m_editText_task_time.setText("10");
+                m_editText_relax_time.setText("1");
+                break;
+            case R.id.btn_2505:
+                m_editText_task_time.setText("25");
+                m_editText_relax_time.setText("5");
+                break;
+            case R.id.btn_3005:
+                m_editText_task_time.setText("30");
+                m_editText_relax_time.setText("5");
+                break;
+            case R.id.btn_6005:
+                m_editText_task_time.setText("60");
+                m_editText_relax_time.setText("5");
+                break;
+            default:
+                break;
+        }
     }
 }

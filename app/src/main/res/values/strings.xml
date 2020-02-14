@@ -7,7 +7,7 @@
     <string name="rest_time">放松</string>
     <string name="repetition_times">次数</string>
     <string name="start_btn">开始</string>
-    <string name="hint_time">设置需要的分钟数</string>
+    <string name="hint_time">设置需要的时间(单位:分钟)</string>
     <string name="hint_times">设置需要的次数</string>
     <string name="noTaskTime">请设置专注时间</string>
     <string name="working">working</string>

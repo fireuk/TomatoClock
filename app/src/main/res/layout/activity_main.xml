@@ -72,7 +72,7 @@
         android:inputType="number"
         android:hint="@string/hint_time"></EditText>
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView_repetition"
@@ -93,14 +93,15 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:inputType="number"
-        android:hint="@string/hint_times"></EditText>
+        android:hint="@string/hint_times"></EditText>-->
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_repetition"
+        android:layout_below="@id/edit_relaxtime"
         android:id="@+id/btn_1001"
         android:text="@string/tenAndone"
+        android:onClick="choseTime"
         android:layout_marginTop="10dp"
         >
     </Button>
@@ -112,6 +113,7 @@
         android:layout_alignTop="@id/btn_1001"
         android:layout_marginLeft="20dp"
         android:id="@+id/btn_2505"
+        android:onClick="choseTime"
         android:text="@string/twofiveAndfive"></Button>
 
     <Button
@@ -121,17 +123,20 @@
         android:layout_toEndOf="@id/btn_2505"
         android:layout_marginLeft="20dp"
         android:id="@+id/btn_3005"
-        android:text="@string/thirdtenAndfive">
+        android:text="@string/thirdtenAndfive"
+        android:onClick="choseTime">
     </Button>
 
-    <!--<Button
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/btn_1001"
         android:layout_toEndOf="@id/btn_3005"
         android:layout_marginLeft="20dp"
         android:id="@+id/btn_6005"
-        android:text="@string/sixtenAndfive"></Button>-->
+        android:text="@string/sixtenAndfive"
+        android:onClick="choseTime"
+        ></Button>
 
     <Button
         android:id="@+id/start_btn"

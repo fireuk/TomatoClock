@@ -33,8 +33,8 @@ public class TomatoClockCuntDownTimer extends CountDownTimer {
         ml_totalTime = millisInFuture;
     }
 
-    public String getRemainingTime(int int_minute){
-        mStringMinute = (int_minute>=10)?String.valueOf(mint_Minute):"0"+String.valueOf(mint_Minute);
+    public String getRemainingTime(){
+        mStringMinute = (mint_Minute>=10)?String.valueOf(mint_Minute):"0"+String.valueOf(mint_Minute);
         if (mInt_Second == 0 && mint_Minute > 0){
             mString_task_time = mStringMinute+":00";
             mInt_Second = 59;

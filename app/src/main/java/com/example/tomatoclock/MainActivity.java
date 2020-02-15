@@ -1,13 +1,20 @@
 package com.example.tomatoclock;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -52,6 +59,8 @@ public class MainActivity extends Activity {
     public static int mInt_CuntDownTimer = 1;
     public static int mInt_page_index = -1;
     public static int mint_Minute = 0;   // 设置的专注时间，单位分钟
+    public static Context mContext;
+    public static Vibrator mVibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +80,8 @@ public class MainActivity extends Activity {
         mInt_page_index= mInt_Main;
         mAssetManager = getAssets();
         mTypeface = Typeface.createFromAsset(mAssetManager, "fonts/Roboto-Medium.ttf");
+        mContext = this;
+        mVibrator = (Vibrator) getSystemService(Activity.VIBRATOR_SERVICE);
     }
 
 
@@ -188,6 +199,9 @@ public class MainActivity extends Activity {
                 public void onFinish() {
                     super.onFinish();
 
+                    // 播放提示音
+                    playSoundAndVibrator(mContext, RingtoneManager.TYPE_RINGTONE, true);
+
                     // task时间到了以后，进度条归零
                     mProgressBar.setProgress(0);
 
@@ -241,6 +255,8 @@ public class MainActivity extends Activity {
 
     // 任务完成后的处理
     public void missionComplete(){
+        playSoundAndVibrator(mContext, RingtoneManager.TYPE_RINGTONE, true);
+
         // 设置任务完成后的背景
         mConstraintLayout_Time.setBackground(getDrawable(R.drawable.blue_bg));
 
@@ -407,5 +423,32 @@ public class MainActivity extends Activity {
             default:
                 break;
         }
+    }
+
+    Uri mUri;
+    Ringtone mRingtone;
+    public void playSoundAndVibrator(Context context, int i_SoundType, boolean b_Vibrator){
+        mUri = RingtoneManager.getDefaultUri(i_SoundType);
+        mRingtone = RingtoneManager.getRingtone(context, mUri);
+        if (mUri != null && mRingtone != null){
+            mRingtone.play();
+        }
+
+        if (b_Vibrator){
+            if (mVibrator != null){
+                //mVibrator.vibrate(1000);
+                mVibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.EFFECT_HEAVY_CLICK));
+            }
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (mRingtone != null && mRingtone.isPlaying()){
+                mRingtone.stop();
+            }
+        }
+        return super.onTouchEvent(event);
     }
 }

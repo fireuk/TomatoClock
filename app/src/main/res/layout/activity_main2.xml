@@ -30,7 +30,7 @@
         android:paddingTop="0dp"
         android:text="@string/noTaskTime"
         android:textColor="@color/white"
-        android:textSize="80sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:gravity="center"
         android:includeFontPadding="false"

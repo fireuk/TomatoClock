@@ -10,7 +10,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.Log;
@@ -190,7 +189,7 @@ public class MainActivity extends Activity {
                 public void onTick(long millisUntilFinished) {
                     super.onTick(millisUntilFinished);
                     Log.d(TAG, "millisUntilFinished = "+millisUntilFinished);
-                    String string_time = getRemainingTime();
+                    String string_time = getRemainingTime(millisUntilFinished);
                     int i_Progress = getProgress(millisUntilFinished);
                     updateTimeUi(string_time, i_Progress);
                 }
@@ -199,20 +198,28 @@ public class MainActivity extends Activity {
                 public void onFinish() {
                     super.onFinish();
 
-                    // 播放提示音
-                    playSoundAndVibrator(mContext, RingtoneManager.TYPE_RINGTONE, true);
-
                     // task时间到了以后，进度条归零
                     mProgressBar.setProgress(0);
 
                     // 启动relax倒计时
                     startRelax();
+
+                    // 播放提示音
+                    playSoundAndVibrator(mContext, RingtoneManager.TYPE_RINGTONE, true);
                 }
             }.start();
         }
         else {
+            Log.d(TAG, "android.os.Build.VERSION.SDK_INT = "+android.os.Build.VERSION.SDK_INT);
             // 如果设置的是无效task时长，那么显示提示文字并修改字体大小，因为太大了显示不下
-            mTextView_remaining_time.setTextSize(100);
+            if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1){
+                // 为我女儿的机器定制，机器比较老了
+                mTextView_remaining_time.setTextSize(20);
+            }
+            else {
+                mTextView_remaining_time.setTextSize(80);
+            }
+
         }
     }
 
@@ -232,7 +239,7 @@ public class MainActivity extends Activity {
                 public void onTick(long millisUntilFinished) {
                     super.onTick(millisUntilFinished);
 
-                    String string_relax_time = getRemainingTime();
+                    String string_relax_time = getRemainingTime(millisUntilFinished);
                     int i_Progress = getProgress(millisUntilFinished);
                     updateTimeUi(string_relax_time, i_Progress);
                 }
@@ -255,8 +262,6 @@ public class MainActivity extends Activity {
 
     // 任务完成后的处理
     public void missionComplete(){
-        playSoundAndVibrator(mContext, RingtoneManager.TYPE_RINGTONE, true);
-
         // 设置任务完成后的背景
         mConstraintLayout_Time.setBackground(getDrawable(R.drawable.blue_bg));
 
@@ -269,6 +274,8 @@ public class MainActivity extends Activity {
 
         // 隐藏任务名称
         m_textView_task_name_onworking.setText("");
+
+        playSoundAndVibrator(mContext, RingtoneManager.TYPE_RINGTONE, true);
     }
 
     public int getMinute(String minute, int defaultValue){
@@ -436,8 +443,8 @@ public class MainActivity extends Activity {
 
         if (b_Vibrator){
             if (mVibrator != null){
-                //mVibrator.vibrate(1000);
-                mVibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.EFFECT_HEAVY_CLICK));
+                mVibrator.vibrate(1000);
+                //mVibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.EFFECT_HEAVY_CLICK));
             }
         }
     }

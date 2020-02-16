@@ -51,6 +51,22 @@ public class TomatoClockCuntDownTimer extends CountDownTimer {
         return mString_task_time;
     }
 
+    public String getRemainingTime(long l_UntilFinished){
+        mString_task_time = "" ;
+        long minute = l_UntilFinished / 60000 ;
+        long seconds = l_UntilFinished % 60000 ;
+        long second = Math.round((float)seconds/1000) ;
+        if( minute < 10 ){
+            mString_task_time += "0" ;
+        }
+        mString_task_time += minute+":" ;
+        if( second < 10 ){
+            mString_task_time += "0" ;
+        }
+        mString_task_time += second ;
+        return mString_task_time ;
+    }
+
     public int getProgress(long l_UntilFinished){
         int i_progress = 0;
         long l_elapsed = ml_totalTime - l_UntilFinished;

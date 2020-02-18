@@ -1,6 +1,7 @@
 package com.example.tomatoclock;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 
 /**
  * create by Administrator
@@ -24,6 +25,7 @@ public class TomatoClockCuntDownTimer extends CountDownTimer {
     private String mStringMinute;
     private int mint_Minute = 0;
     private long ml_totalTime = 0;
+    private String TAG = "braind_TomatoClockCuntDownTimer";
 
     public TomatoClockCuntDownTimer(long millisInFuture, long countDownInterval) {
         super(millisInFuture, countDownInterval);
@@ -35,35 +37,22 @@ public class TomatoClockCuntDownTimer extends CountDownTimer {
         ml_totalTime = millisInFuture;
     }
 
-    public String getRemainingTime(){
-        mStringMinute = (mint_Minute>=10)?String.valueOf(mint_Minute):"0"+String.valueOf(mint_Minute);
-        if (mInt_Second == 0 && mint_Minute > 0){
-            mString_task_time = mStringMinute+":00";
-            mInt_Second = 59;
-            mint_Minute--;
-        }
-        else if (mInt_Second > 0){
-            mString_task_time = mInt_Second >=10
-                    ?mStringMinute+":"+String.valueOf(mInt_Second)
-                    :mStringMinute+":0"+String.valueOf(mInt_Second);
-            mInt_Second--;
-        }
-        return mString_task_time;
-    }
-
     public String getRemainingTime(long l_UntilFinished){
         mString_task_time = "" ;
-        long minute = l_UntilFinished / 60000 ;
-        long seconds = l_UntilFinished % 60000 ;
-        long second = Math.round((float)seconds/1000) ;
-        if( minute < 10 ){
+        int int_TotalSeconds = (int)l_UntilFinished/1000;
+        //Log.d(TAG, "l_UntilFinished = " + l_UntilFinished + " and int_TotalSeconds = "+int_TotalSeconds);
+        int int_minute = int_TotalSeconds/60;
+        int int_second = int_TotalSeconds%60;
+        Log.d(TAG, "int_minute = " + int_minute + " and int_second = "+int_second);
+
+        if( int_minute < 10 ){
             mString_task_time += "0" ;
         }
-        mString_task_time += minute+":" ;
-        if( second < 10 ){
+        mString_task_time += int_minute+":" ;
+        if( int_second < 10 ){
             mString_task_time += "0" ;
         }
-        mString_task_time += second ;
+        mString_task_time += int_second ;
         return mString_task_time ;
     }
 

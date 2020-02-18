@@ -16,4 +16,7 @@
     <string name="twofiveAndfive">25+5</string>
     <string name="thirdtenAndfive">30+5</string>
     <string name="sixtenAndfive">60+5</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

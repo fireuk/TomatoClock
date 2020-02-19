@@ -1,6 +1,7 @@
 package com.example.tomatoclock;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,6 +93,26 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
+
+        // 保存用户设置的数据
+        SharedPreferences sp = mMa_Activity.getSharedPreferences("data",Context.MODE_PRIVATE);
+        SharedPreferences.Editor sp_e = sp.edit();
+        sp_e.putString(TASKNAME, mEt_TaskName.getText().toString());
+        sp_e.putString(TASKTIME, mEt_TaskTime.getText().toString());
+        sp_e.putString(RELAXTIME, mEt_RelaxTime.getText().toString());
+        sp_e.commit();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.d(TAG, "onDestroyView");
+        super.onDestroyView();
     }
 
     private Button mBtn_1001;
@@ -100,6 +121,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private Button mBtn_6005;
     private Button mBtn_Start;
     private MainActivity mMa_Activity;
+    private String TASKNAME = "";
+    private String TASKTIME = "";
+    private String RELAXTIME = "";
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -119,6 +144,12 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         mEt_TaskTime = (EditText)mMa_Activity.findViewById(R.id.edit_worktime);
         mEt_RelaxTime = (EditText)mMa_Activity.findViewById(R.id.edit_relaxtime);
         mEt_TaskName = (EditText)mMa_Activity.findViewById(R.id.edit_taskname);
+
+        // 读取之前用户设置的数据
+        SharedPreferences sp = mMa_Activity.getSharedPreferences("data",Context.MODE_PRIVATE);
+        mEt_TaskName.setText(sp.getString(TASKNAME, ""));
+        mEt_TaskTime.setText(sp.getString(TASKTIME,""));
+        mEt_RelaxTime.setText(sp.getString(RELAXTIME, ""));
     }
 
 
@@ -192,13 +223,5 @@ public class MainFragment extends Fragment implements View.OnClickListener{
             default:
                 break;
         }
-    }
-
-    String getTaskTime(){
-        String st = "xxx";
-        if (mEt_TaskTime != null){
-            st = mEt_TaskTime.getText().toString();
-        }
-        return st;
     }
 }

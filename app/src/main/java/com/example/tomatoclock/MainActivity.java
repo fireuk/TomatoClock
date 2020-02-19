@@ -156,7 +156,20 @@ public class MainActivity extends FragmentActivity implements TimingFragment.OnF
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy");
+        super.onDestroy();
     }
 
     @Override

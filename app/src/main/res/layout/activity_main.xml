@@ -135,6 +135,17 @@
         ></Button>
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/btn_6005"
+        android:layout_alignTop="@id/btn_1001"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/btn_statistics"
+        android:text="@string/statistics"
+        ></Button>
+
+
+    <Button
         android:id="@+id/start_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -93,7 +93,6 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-
         // 保存用户设置的数据
         SharedPreferences sp = mMa_Activity.getSharedPreferences("data",Context.MODE_PRIVATE);
         SharedPreferences.Editor sp_e = sp.edit();
@@ -120,10 +119,11 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private Button mBtn_3005;
     private Button mBtn_6005;
     private Button mBtn_Start;
+    private Button mBtn_Statistics;
     private MainActivity mMa_Activity;
-    private String TASKNAME = "";
-    private String TASKTIME = "";
-    private String RELAXTIME = "";
+    private String TASKNAME = "taskname";
+    private String TASKTIME = "tasktime";
+    private String RELAXTIME = "relaxtimg";
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -141,6 +141,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         mBtn_3005.setOnClickListener(this);
         mBtn_6005 = (Button)mMa_Activity.findViewById(R.id.btn_6005);
         mBtn_6005.setOnClickListener(this);
+        mBtn_Statistics = (Button)mMa_Activity.findViewById(R.id.btn_statistics);
+        mBtn_Statistics.setOnClickListener(this);
+
         mEt_TaskTime = (EditText)mMa_Activity.findViewById(R.id.edit_worktime);
         mEt_RelaxTime = (EditText)mMa_Activity.findViewById(R.id.edit_relaxtime);
         mEt_TaskName = (EditText)mMa_Activity.findViewById(R.id.edit_taskname);
@@ -172,7 +175,10 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -215,11 +221,14 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                 mEt_RelaxTime.setText("5");
                 break;
             case R.id.start_btn:
-                MainActivity ma = (MainActivity)getActivity();
-                ma.mSt_TaskTime = mEt_TaskTime.getText().toString();
-                ma.mSt_RelaxTime = mEt_RelaxTime.getText().toString();
-                ma.mSt_TaskName = mEt_TaskName.getText().toString();
-                ma.startCuntDownTimer();
+                mMa_Activity.mSt_TaskTime = mEt_TaskTime.getText().toString();
+                mMa_Activity.mSt_RelaxTime = mEt_RelaxTime.getText().toString();
+                mMa_Activity.mSt_TaskName = mEt_TaskName.getText().toString();
+                mMa_Activity.startCuntDownTimer();
+                break;
+            case R.id.btn_statistics:
+                mMa_Activity.startStatisticsActivity();
+                break;
             default:
                 break;
         }

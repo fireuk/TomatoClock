@@ -20,6 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.tomatoclock.statistics.Data;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -203,6 +208,7 @@ public class TimingFragment extends Fragment {
             }
             mInt_TaskTime = getMinute(st_TaskTime, 0);
             mInt_RelaxTime = getMinute(st_RelaxTime,0);
+            mCurrentState = 0;
             startCuntDownTimer(mSt_TaskName, mInt_TaskTime, TASKING);
         }
         else {
@@ -210,14 +216,32 @@ public class TimingFragment extends Fragment {
             if (mCountDownTimer != null){
                 mCountDownTimer.cancel();
             }
+
+            // 只有在从计时过程中，或者休息过程中，或者完成以后才插入数据库
+            if (mCurrentState != 0){
+                MainActivity.mCv.clear();
+
+                // 如果不是结束后退出，那么取当前时间为结束时间
+                if ( mCurrentState != COMPLETELE){
+                    recordEndTime();
+                }
+                MainActivity.mCv.put(Data.COLUMN_DATE, MainActivity.mSt_Date);
+                MainActivity.mCv.put(Data.COLUMN_START_TIME, MainActivity.mSt_Start_Time);
+                MainActivity.mCv.put(Data.COLUMN_END_TIME, MainActivity.mSt_End_Time);
+                MainActivity.mSdb.insert(Data.TABLE_NAME,null, MainActivity.mCv);
+            }
         }
     }
 
     private final int TASKING = 1;
     private final int RELAXING = 2;
+    private final int COMPLETELE = 3;
+    private int mCurrentState = 0;
     private static TomatoClockCuntDownTimer mCountDownTimer;
     private void startCuntDownTimer(String st_Title, int int_Minutes, final int int_CuntDownTimerType){
         if (int_Minutes > 0){
+            mCurrentState = int_CuntDownTimerType;
+
             // 倒计时的文字字体设置
             mTx_RemainingTime.setTextSize(200);
             mTx_RemainingTime.setTypeface(MainActivity.mTypeface);
@@ -277,6 +301,7 @@ public class TimingFragment extends Fragment {
 
     // 任务完成后的处理
     public void missionComplete(int int_missionType){
+        mCurrentState = COMPLETELE;
 
         // 隐藏进度条
         mPb_TimeProgress.setProgress(0);
@@ -290,6 +315,9 @@ public class TimingFragment extends Fragment {
             mTx_RemainingTime.setTextSize(100);
             // 隐藏任务名称
             mTx_TaskName.setText("");
+
+            // 记录结束时间
+            recordEndTime();
         }
         else if (int_missionType == TASKING){
             // 启动relax倒计时
@@ -297,6 +325,13 @@ public class TimingFragment extends Fragment {
         }
 
         playSoundAndVibrator(mMa_Activity, RingtoneManager.TYPE_RINGTONE, true);
+    }
+
+    private void recordEndTime(){
+        SimpleDateFormat sTimeF = new SimpleDateFormat(Data.TIME_FORMAT);
+        long l_currenTime = System.currentTimeMillis();
+        Date Current_date = new Date(l_currenTime);
+        MainActivity.mSt_End_Time = sTimeF.format(Current_date);
     }
 
     // 刷新计时界面的UI：数字和进度条

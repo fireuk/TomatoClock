@@ -12,8 +12,9 @@ public class Data implements BaseColumns {
     * */
     public static final String TABLE_NAME = "task";
     public static final String COLUMN_DATE = "date";
-    public static final String COLUMN_START_TIME  = "start_time";
-    public static final String COLUMN_END_TIME = "end_time";
+    public static final String COLUMN_DURATION_TIME  = "duration_time";
+    public static final String COLUMN_TASK_NAME = "task_name";
+    public static final String COLUMN_TASK_STATUS = "task_status";
 
     /*
     * 日期和时间格式

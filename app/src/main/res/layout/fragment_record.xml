@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="2dp"
     >
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/data_id"
@@ -17,34 +17,43 @@
         android:textAppearance="?attr/textAppearanceListItem"
         android:gravity="center_vertical"
         >
-    </TextView>
+    </TextView>-->
 
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:layout_toEndOf="@id/data_id"
         android:text="2"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/start_time"
+        android:id="@+id/duration_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:layout_toEndOf="@id/date"
+        android:layout_alignParentRight="true"
         android:text="3"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/end_time"
+        android:id="@+id/task_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:layout_toEndOf="@id/start_time"
+        android:layout_below="@id/date"
         android:text="4"
         android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/task_status"
+        android:layout_alignParentRight="true"
+        android:text="5"
+        android:layout_below="@id/date"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem"></TextView>
 
 
 </RelativeLayout>

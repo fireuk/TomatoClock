@@ -14,8 +14,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             Data.TABLE_NAME + "(" +
             Data._ID + " integer primary key autoincrement," +
             Data.COLUMN_DATE + " text," +
-            Data.COLUMN_START_TIME + " text," +
-            Data.COLUMN_END_TIME + " text"
+            Data.COLUMN_DURATION_TIME + " text," +
+            Data.COLUMN_TASK_NAME + " text," +
+            Data.COLUMN_TASK_STATUS + " text"
             + ")";
 
     private Context mContext;

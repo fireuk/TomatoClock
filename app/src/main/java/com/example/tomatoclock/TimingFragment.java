@@ -196,15 +196,21 @@ public class TimingFragment extends Fragment {
         if (!hidden){
             String st_TaskTime = "";
             String st_RelaxTime = "";
-            mSt_TaskName = "working";
+            String st_TaskName = "working";
             if (mMa_Activity != null){
                 st_TaskTime = mMa_Activity.mSt_TaskTime;
                 st_RelaxTime = mMa_Activity.mSt_RelaxTime;
-                String st_TaskName = mMa_Activity.mSt_TaskName;
-                if (!st_TaskName.isEmpty()){
-                    mSt_TaskName = st_TaskName;
+                if (!mMa_Activity.mSt_TaskName.isEmpty()){
+                    st_TaskName = mMa_Activity.mSt_TaskName;
                 }
-                Log.d(TAG, "st_TaskTime = "+st_TaskTime+" and st_RelaxTime = "+st_RelaxTime + " and mSt_TaskName = "+mSt_TaskName );
+                else {
+                    mMa_Activity.mSt_TaskName = st_TaskName;
+                }
+                mSt_TaskName = st_TaskName;
+
+                Log.d(TAG, "st_TaskTime = "+st_TaskTime+",st_RelaxTime = "
+                        +st_RelaxTime + " and mSt_TaskName = "+mSt_TaskName +
+                        ",mMa_Activity.mSt_TaskName = "+mMa_Activity.mSt_TaskName);
             }
             mInt_TaskTime = getMinute(st_TaskTime, 0);
             mInt_RelaxTime = getMinute(st_RelaxTime,0);
@@ -340,8 +346,10 @@ public class TimingFragment extends Fragment {
 
         // 入库到数据库
         MainActivity.mCv.put(Data.COLUMN_DATE, MainActivity.mSt_Date);
-        MainActivity.mCv.put(Data.COLUMN_START_TIME, MainActivity.mSt_Start_Time);
-        MainActivity.mCv.put(Data.COLUMN_END_TIME, MainActivity.mSt_End_Time);
+        MainActivity.mCv.put(Data.COLUMN_DURATION_TIME, MainActivity.mSt_Start_Time+" ~ "+MainActivity.mSt_End_Time);
+        MainActivity.mCv.put(Data.COLUMN_TASK_NAME, MainActivity.mSt_TaskName);
+        String st_Status = (mCurrentState == TASKING)?getString(R.string.task_interrupt):getString(R.string.task_complete);
+        MainActivity.mCv.put(Data.COLUMN_TASK_STATUS, st_Status);
         MainActivity.mSdb.insert(Data.TABLE_NAME,null, MainActivity.mCv);
     }
 

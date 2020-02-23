@@ -38,10 +38,10 @@ public class MyRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyRecordRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mRecordItem = mValues.get(position);
-        holder.mIdView.setText(holder.mRecordItem.id);
         holder.mDateView.setText(holder.mRecordItem.date);
-        holder.mStartTimeView.setText(holder.mRecordItem.start_time);
-        holder.mEndTimeView.setText(holder.mRecordItem.end_time);
+        holder.mDurationTimeView.setText(holder.mRecordItem.duration_time);
+        holder.mTaskNameView.setText(holder.mRecordItem.task_name);
+        holder.mTaskStatusView.setText(holder.mRecordItem.task_status);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,19 +62,20 @@ public class MyRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyRecordRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+        /*public final TextView mIdView;*/
         public final TextView mDateView;
-        public final TextView mStartTimeView;
-        public final TextView mEndTimeView;
+        public final TextView mDurationTimeView;
+        public final TextView mTaskNameView;
+        public final TextView mTaskStatusView;
         public RecordItem mRecordItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.data_id);
             mDateView = (TextView) view.findViewById(R.id.date);
-            mStartTimeView = (TextView) view.findViewById(R.id.start_time);
-            mEndTimeView = (TextView) view.findViewById(R.id.end_time);
+            mDurationTimeView = (TextView) view.findViewById(R.id.duration_time);
+            mTaskNameView = (TextView) view.findViewById(R.id.task_name);
+            mTaskStatusView = (TextView)view.findViewById(R.id.task_status);
         }
     }
 }

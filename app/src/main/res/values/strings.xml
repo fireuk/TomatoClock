@@ -17,11 +17,11 @@
     <string name="thirdtenAndfive">30+5</string>
     <string name="sixtenAndfive">60+5</string>
     <string name="statistics">历史记录</string>
+    <string name="task_interrupt">中途退出！</string>
+    <string name="task_complete">胜利完成！</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

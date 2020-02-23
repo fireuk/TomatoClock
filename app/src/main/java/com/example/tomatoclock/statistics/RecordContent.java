@@ -11,38 +11,35 @@ public class RecordContent {
 
     public static class RecordItem {
         public final String date;
-        public final String start_time;
-        public final String end_time;
-        public final String id;
+        public final String duration_time;
+        public final String task_name;
+        public final String task_status;
 
-        public RecordItem(String id, String date, String start_time, String end_time) {
+        public RecordItem(String date, String duration_time, String task_name, String task_status) {
             this.date = date;
-            this.start_time = start_time;
-            this.end_time = end_time;
-            this.id = id;
+            this.duration_time = duration_time;
+            this.task_name = task_name;
+            this.task_status = task_status;
         }
     }
-
-    ArrayList<RecordItem> ITEMS = new ArrayList<RecordItem>();
 
     public static ArrayList<RecordItem>getRecordItems(Context contex){
         ArrayList<RecordItem> ITEMS = new ArrayList<RecordItem>();
 
-        int Count = 2;
         RecordItem recordItem;
         Cursor csr = MainActivity.mSdb.query(Data.TABLE_NAME, null,null,null,null,null,null);
-        String s_id = "";
         String s_date = "";
-        String s_start_time = "";
-        String s_end_time="";
+        String s_duration_time = "";
+        String s_task_name = "";
+        String s_task_status = "";
         if (csr.moveToFirst()) {
             do {
-                s_id = csr.getString(csr.getColumnIndex(Data._ID));
                 s_date = csr.getString(csr.getColumnIndex(Data.COLUMN_DATE));
-                s_start_time = csr.getString(csr.getColumnIndex(Data.COLUMN_START_TIME));
-                s_end_time = csr.getString(csr.getColumnIndex(Data.COLUMN_END_TIME));
+                s_duration_time = csr.getString(csr.getColumnIndex(Data.COLUMN_DURATION_TIME));
+                s_task_name = csr.getString(csr.getColumnIndex(Data.COLUMN_TASK_NAME));
+                s_task_status = csr.getString(csr.getColumnIndex(Data.COLUMN_TASK_STATUS));
 
-                recordItem = createRecordItem(s_id, s_date, s_start_time, s_end_time);
+                recordItem = createRecordItem(s_date, s_duration_time, s_task_name, s_task_status);
                 ITEMS.add(recordItem);
             } while (csr.moveToNext());
         }
@@ -51,7 +48,7 @@ public class RecordContent {
         return  ITEMS;
     }
 
-    private static RecordItem createRecordItem(String id, String date, String start_time, String end_time) {
-        return new RecordItem(id, date, start_time, end_time);
+    private static RecordItem createRecordItem(String date, String duration_time, String task_name, String task_status) {
+        return new RecordItem(date, duration_time, task_name, task_status);
     }
 }

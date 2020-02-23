@@ -221,14 +221,10 @@ public class TimingFragment extends Fragment {
             if (mCurrentState != 0){
                 MainActivity.mCv.clear();
 
-                // 如果不是结束后退出，那么取当前时间为结束时间
-                if ( mCurrentState != COMPLETELE){
+                // 如果现在还是task倒计时阶段，则取当前退出界面的时间为结束时间，并入库
+                if ( mCurrentState == TASKING){
                     recordEndTime();
                 }
-                MainActivity.mCv.put(Data.COLUMN_DATE, MainActivity.mSt_Date);
-                MainActivity.mCv.put(Data.COLUMN_START_TIME, MainActivity.mSt_Start_Time);
-                MainActivity.mCv.put(Data.COLUMN_END_TIME, MainActivity.mSt_End_Time);
-                MainActivity.mSdb.insert(Data.TABLE_NAME,null, MainActivity.mCv);
             }
         }
     }
@@ -257,6 +253,15 @@ public class TimingFragment extends Fragment {
             }
             else if (int_CuntDownTimerType == TASKING){
                 mConstraintLayout.setBackground(mMa_Activity.getDrawable(R.drawable.red_bg_1));
+
+                // 启动task倒计时时，记录本次的task的起始时间
+                SimpleDateFormat sDF = new SimpleDateFormat(Data.DATE_FORMAT);
+                SimpleDateFormat sTimeF = new SimpleDateFormat(Data.TIME_FORMAT);
+                long l_currenTime = System.currentTimeMillis();
+                Date Current_date = new Date(l_currenTime);
+                mMa_Activity.mSt_Date = sDF.format(Current_date);
+                mMa_Activity.mSt_Start_Time = sTimeF.format(Current_date);
+                Log.d(TAG, "mSt_Date = "+mMa_Activity.mSt_Date + " and mSt_Start_Time = "+mMa_Activity.mSt_Start_Time);
             }
 
             // 创建倒计时并启动
@@ -315,13 +320,13 @@ public class TimingFragment extends Fragment {
             mTx_RemainingTime.setTextSize(100);
             // 隐藏任务名称
             mTx_TaskName.setText("");
-
-            // 记录结束时间
-            recordEndTime();
         }
         else if (int_missionType == TASKING){
             // 启动relax倒计时
             startCuntDownTimer("relaxing", mInt_RelaxTime, RELAXING);
+
+            // task计时结束后，就记录为结束时间并入库，relax的时间不算入task计时
+            recordEndTime();
         }
 
         playSoundAndVibrator(mMa_Activity, RingtoneManager.TYPE_RINGTONE, true);
@@ -332,6 +337,12 @@ public class TimingFragment extends Fragment {
         long l_currenTime = System.currentTimeMillis();
         Date Current_date = new Date(l_currenTime);
         MainActivity.mSt_End_Time = sTimeF.format(Current_date);
+
+        // 入库到数据库
+        MainActivity.mCv.put(Data.COLUMN_DATE, MainActivity.mSt_Date);
+        MainActivity.mCv.put(Data.COLUMN_START_TIME, MainActivity.mSt_Start_Time);
+        MainActivity.mCv.put(Data.COLUMN_END_TIME, MainActivity.mSt_End_Time);
+        MainActivity.mSdb.insert(Data.TABLE_NAME,null, MainActivity.mCv);
     }
 
     // 刷新计时界面的UI：数字和进度条

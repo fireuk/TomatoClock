@@ -18,12 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.tomatoclock.Base.BaseActivity;
-import com.example.tomatoclock.statistics.Data;
 import com.example.tomatoclock.statistics.DataBaseHelper;
 import com.example.tomatoclock.statistics.StatisticMainActivity;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * create by Administrator
@@ -112,14 +108,6 @@ public class MainActivity extends BaseActivity implements TimingFragment.OnFragm
         fragmentTransaction.show(mTimingFragment);
         fragmentTransaction.commit();
         mInt_page_index = mInt_CuntDownTimer;
-
-        SimpleDateFormat sDF = new SimpleDateFormat(Data.DATE_FORMAT);
-        SimpleDateFormat sTimeF = new SimpleDateFormat(Data.TIME_FORMAT);
-        long l_currenTime = System.currentTimeMillis();
-        Date Current_date = new Date(l_currenTime);
-        mSt_Date = sDF.format(Current_date);
-        mSt_Start_Time = sTimeF.format(Current_date);
-        Log.d(TAG, "mSt_Date = "+mSt_Date + " and mSt_Start_Time = "+mSt_Start_Time);
     }
 
     public void startStatisticsActivity(){

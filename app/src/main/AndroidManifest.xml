@@ -17,11 +17,6 @@
         <activity android:name=".statistics.StatisticMainActivity"></activity>
         <activity android:name=".Base.BaseActivity" />
         <activity
-            android:name=".statistics.FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme" />
-        <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape">

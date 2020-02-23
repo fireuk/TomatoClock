@@ -8,13 +8,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tomatoclock.R;
-import com.example.tomatoclock.statistics.RecordFragment.OnListFragmentInteractionListener;
-import com.example.tomatoclock.statistics.dummy.DummyContent.DummyItem;
 import com.example.tomatoclock.statistics.RecordContent.RecordItem;
+import com.example.tomatoclock.statistics.RecordFragment.OnListFragmentInteractionListener;
+
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -66,7 +66,6 @@ public class MyRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyRecordRe
         public final TextView mDateView;
         public final TextView mStartTimeView;
         public final TextView mEndTimeView;
-        public DummyItem mItem;
         public RecordItem mRecordItem;
 
         public ViewHolder(View view) {

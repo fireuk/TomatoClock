@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tomatoclock.MainActivity;
 import com.example.tomatoclock.R;
 import com.example.tomatoclock.statistics.RecordContent.RecordItem;
 import com.example.tomatoclock.statistics.RecordFragment.OnListFragmentInteractionListener;
@@ -42,7 +43,10 @@ public class MyRecordRecyclerViewAdapter extends RecyclerView.Adapter<MyRecordRe
         holder.mDurationTimeView.setText(holder.mRecordItem.duration_time);
         holder.mTaskNameView.setText(holder.mRecordItem.task_name);
         holder.mTaskStatusView.setText(holder.mRecordItem.task_status);
-
+        holder.mDateView.setTypeface(MainActivity.mTypeface);
+        holder.mDurationTimeView.setTypeface(MainActivity.mTypeface);
+        holder.mTaskNameView.setTypeface(MainActivity.mTypeface);
+        holder.mTaskStatusView.setTypeface(MainActivity.mTypeface);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -19,7 +19,7 @@ public class Data implements BaseColumns {
     /*
     * 日期和时间格式
     * */
-    public static final String DATE_FORMAT = "yyyy年MM年dd日";
+    public static final String DATE_FORMAT = "yyyy年MM月dd日";
     public static final String TIME_FORMAT = "HH:mm";
 
 

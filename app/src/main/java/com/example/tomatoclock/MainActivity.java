@@ -18,8 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.tomatoclock.Base.BaseActivity;
+import com.example.tomatoclock.custom.CustomActivity;
 import com.example.tomatoclock.statistics.DataBaseHelper;
-import com.example.tomatoclock.statistics.StatisticMainActivity;
 
 /**
  * create by Administrator
@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity implements TimingFragment.OnFragm
     }
 
     public void startStatisticsActivity(){
-        Intent intent = new Intent(MainActivity.this, StatisticMainActivity.class);
+        Intent intent = new Intent(MainActivity.this, CustomActivity.class);
         startActivity(intent);
     }
 

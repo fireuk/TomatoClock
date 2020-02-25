@@ -16,6 +16,12 @@
         tools:ignore="HardcodedDebugMode">
         <activity android:name=".statistics.StatisticMainActivity"></activity>
         <activity android:name=".Base.BaseActivity" />
+        <activity android:name=".Base.BaseCalendarActivity" />
+        <activity
+            android:name=".custom.CustomActivity"
+            android:theme="@style/CalendarTheme"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
